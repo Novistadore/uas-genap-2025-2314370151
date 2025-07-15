@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::all();
         return view('products.index', compact('products'));
     }
 
@@ -26,6 +26,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
+            'is_publish' => 'nullable|boolean',
         ]);
 
         $validated['is_publish'] = $request->has('is_publish');
@@ -48,6 +49,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
+            'is_publish' => 'nullable|boolean',
         ]);
 
         $validated['is_publish'] = $request->has('is_publish');
@@ -61,7 +63,6 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-
         return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus!');
     }
 }
